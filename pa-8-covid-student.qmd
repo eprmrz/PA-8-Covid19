@@ -158,4 +158,4 @@ cases |>
 
 Using the COVID-19 data, create your graph to answer you own research question. You will submit that graph as png file in your Canvas quiz. Include your research question as the subtitle of the graph.  
 
-#ggsave("___.png")
+#ggsave("____.png")
