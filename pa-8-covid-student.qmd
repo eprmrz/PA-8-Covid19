@@ -101,9 +101,14 @@ cases |>
   mutate(date = ymd(date),
          month = month(date, label = TRUE, abbr = FALSE),
          year = year(date)) |>
-  group_by(month)|>
-  summarize(monthly_cases = sum(cases_daily))
-  unite()
+  unite(col = month_year, month, year, sep = " ", remove = TRUE, na.rm = FALSE) |>
+  group_by(month_year)|>
+  summarize(monthly_cases = sum(cases_daily))|>
+  ggplot(aes(x = month_year, y = monthly_cases), 
+         fct_reorder(month_year, my(month_year))) +
+  geom_point()
+  
+  
 ```
 
 
