@@ -157,5 +157,24 @@ cases |>
 ### Create your own graph
 
 Using the COVID-19 data, create your graph to answer you own research question. You will submit that graph as png file in your Canvas quiz. Include your research question as the subtitle of the graph.  
+```{r}
+cases |> 
+  filter(state == "California") |> 
+  mutate(date = ymd(date),
+         month = month(date, label = TRUE, abbr = FALSE),
+         year = year(date)) |>
+  unite(col = month_year, month, year, sep = " ", remove = TRUE, na.rm = FALSE) |>
+  group_by(month_year)|>
+  summarize(monthly_cases = sum(cases_daily))|>
+  ggplot(aes(x = fct_reorder(month_year, my(month_year)), y = monthly_cases), 
+         ) +
+  geom_boxplot() +
+  labs(title = "California Covid-19 cases from January 2020 to March 2023",
+       x = "Number of Cases",
+       y = "Month by Year")+
+  coord_flip()
+
+#ggsave("ca_covid.png")
+```
 
 #ggsave("____.png")
