@@ -97,10 +97,12 @@ Below is some code that can help you get started with the process of working wit
 ```{r}
 #| label: calculate-totals-month
 cases |> 
-  filter(____________) |> 
-  mutate(date = ___(date),
-         month = ___(date, label = , abbr = ),
-         year = ___(date)) |> 
+  filter(state == "California") |> 
+  mutate(date = ymd(date),
+         month = month(date, label = TRUE, abbr = FALSE),
+         year = year(date)) |>
+  group_by(month)|>
+  summarize(monthly_cases = sum(cases_daily))
   unite()
 ```
 
