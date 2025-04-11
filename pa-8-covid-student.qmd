@@ -104,9 +104,10 @@ cases |>
   unite(col = month_year, month, year, sep = " ", remove = TRUE, na.rm = FALSE) |>
   group_by(month_year)|>
   summarize(monthly_cases = sum(cases_daily))|>
-  ggplot(aes(x = month_year, y = monthly_cases), 
-         fct_reorder(month_year, my(month_year))) +
-  geom_point()
+  ggplot(aes(x = fct_reorder(month_year, my(month_year)), y = monthly_cases), 
+         ) +
+  geom_point() +
+  coord_flip()
   
   
 ```
@@ -116,7 +117,7 @@ cases |>
 
 **Which Month in California had the most COVID-19 cases between January 2020 and March 2023?**
 
->Insert Answer Here
+> January 2022
 
 
 <!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! -->
@@ -129,7 +130,18 @@ Create a graph that maps the number of cases in California in 2021 only. Be sure
 
 ```{r}
 #| label: ca-2021-covid
-
+cases |> 
+  filter(state == "California", year(date) == "2021") |> 
+  mutate(date = ymd(date),
+         month = month(date, label = TRUE, abbr = FALSE),
+         year = year(date)) |>
+  unite(col = month_year, month, year, sep = " ", remove = TRUE, na.rm = FALSE) |>
+  group_by(month_year)|>
+  summarize(monthly_cases = sum(cases_daily))|>
+  ggplot(aes(x = fct_reorder(month_year, my(month_year)), y = monthly_cases), 
+         ) +
+  geom_point() +
+  coord_flip()
 ```
 
 
@@ -137,7 +149,7 @@ Create a graph that maps the number of cases in California in 2021 only. Be sure
 
 **Which month in 2021 had the fewest number of cases in California?**
 
->Insert Answer Here
+> June 2021
 
 <!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! -->
 
@@ -145,3 +157,5 @@ Create a graph that maps the number of cases in California in 2021 only. Be sure
 ### Create your own graph
 
 Using the COVID-19 data, create your graph to answer you own research question. You will submit that graph as png file in your Canvas quiz. Include your research question as the subtitle of the graph.  
+
+#ggsave("___.png")
